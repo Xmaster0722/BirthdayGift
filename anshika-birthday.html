@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Anshika 🎉</title>
+
+<style>
+*{box-sizing:border-box;font-family:Segoe UI,sans-serif}
+
+body{
+margin:0;
+background:linear-gradient(135deg,#ffdde1,#ee9ca7);
+text-align:center;
+overflow-x:hidden;
+color:#333
+}
+
+h1{margin-top:20px;font-size:2.4rem}
+h2{color:#b0005c;margin-top:25px}
+
+.card{
+background:#ffffffdd;
+margin:20px;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,.15)
+}
+
+.wish{margin:12px 0;font-size:1.05rem}
+
+button{
+background:#ff4f81;
+color:white;
+border:none;
+padding:12px 22px;
+border-radius:25px;
+font-size:1rem;
+cursor:pointer;
+margin-top:10px
+}
+button:hover{background:#e63b6f}
+
+input{
+padding:10px;
+border-radius:20px;
+border:1px solid #ccc;
+width:80%;
+margin-top:10px
+}
+
+.hidden{display:none}
+
+/* Gallery */
+.gallery{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+gap:12px;
+margin-top:15px
+}
+.gallery img{
+width:100%;
+height:140px;
+object-fit:cover;
+border-radius:15px;
+cursor:pointer;
+transition:.3s
+}
+.gallery img:hover{transform:scale(1.05)}
+
+/* Lightbox */
+#lightbox{
+position:fixed;
+top:0;left:0;
+width:100%;height:100%;
+background:rgba(0,0,0,.85);
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+z-index:999
+}
+#lightbox img{
+max-width:90%;
+max-height:75%;
+border-radius:20px
+}
+#caption{color:white;margin-top:10px}
+
+/* Confetti */
+canvas{
+position:fixed;
+top:0;left:0;
+pointer-events:none
+}
+
+footer{
+margin:30px 10px;
+font-size:.9rem;
+opacity:.8
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<h1>🎉 Happy Birthday Anshika 🎂</h1>
+<p>Today is all about smiles, love & beautiful memories 💖</p>
+
+<div class="card">
+<h2>💌 Birthday Wishes</h2>
+<p class="wish">May your days be filled with sunshine and laughter ✨</p>
+<p class="wish">May your dreams grow bigger and your worries smaller 🌈</p>
+<p class="wish">You deserve happiness today and always 💐</p>
+<p class="wish">Keep shining, smiling and being amazing 🌟</p>
+<p class="wish">Another year older, another year more wonderful 💕</p>
+<p class="wish">May success, peace and love follow you everywhere 🎁</p>
+</div>
+
+<div class="card">
+<h2>🧠 Puzzle 1</h2>
+<p>I come once a year, bring joy & cheer.<br> Candles glow, loved ones near.<br>What am I?</p>
+<input id="riddle">
+<br>
+<button onclick="checkRiddle()">Check</button>
+<p id="riddleResult"></p>
+</div>
+
+<div class="card">
+<h2>🔢 Puzzle 2</h2>
+<p>If there are 4 cakes and each has 6 slices,<br>how many slices total?</p>
+<input id="math">
+<br>
+<button onclick="checkMath()">Check</button>
+<p id="mathResult"></p>
+</div>
+
+<div class="card">
+<h2>📸 Memories Gallery</h2>
+<p>View all photos to unlock a secret message 💝</p>
+
+<div class="gallery">
+  <img src="photo1.jpg" alt="Grace in simplicity" data-viewed="false" onclick="openLightbox(this)">
+  <img src="photo2.jpg" alt="Confidence and charm" data-viewed="false" onclick="openLightbox(this)">
+  <img src="photo3.jpg" alt="Quiet strength" data-viewed="false" onclick="openLightbox(this)">
+  <img src="photo4.jpg" alt="Beautiful soul" data-viewed="false" onclick="openLightbox(this)">
+</div>
+
+<div id="lightbox" onclick="closeLightbox()">
+<img id="lightboxImg">
+<p id="caption"></p>
+</div>
+
+<div class="card hidden" id="secretMessage">
+<h2>💖 Secret Message Unlocked</h2>
+<p>
+Dear Anshika,<br><br>
+Every photo you saw holds a memory, just like every moment you create leaves a smile behind.<br><br>
+May this year bring confidence in your steps, peace in your heart,
+and happiness in the smallest things ✨<br><br>
+Happy Birthday 🎂💐
+</p>
+</div>
+
+<footer>Made with 💕 just for Anshika</footer>
+
+<script>
+// Confetti
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+canvas.width=innerWidth;
+canvas.height=innerHeight;
+let confetti=[];
+for(let i=0;i<200;i++){
+confetti.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+r:Math.random()*6+2,
+d:Math.random()*5+1,
+c:`hsl(${Math.random()*360},100%,60%)`
+})
+}
+function draw(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+confetti.forEach(p=>{
+ctx.beginPath();
+ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+ctx.fillStyle=p.c;
+ctx.fill();
+p.y+=p.d;
+if(p.y>canvas.height)p.y=-10;
+});
+requestAnimationFrame(draw);
+}
+draw();
+
+// Puzzles
+function checkRiddle(){
+document.getElementById("riddleResult").innerText=
+riddle.value.toLowerCase().includes("birthday")?"🎉 Correct!":"❌ Try again!"
+}
+function checkMath(){
+document.getElementById("mathResult").innerText=
+math.value==24?"🎂 Correct!":"❌ Try again!"
+}
+
+// Gallery logic
+function openLightbox(img){
+lightbox.style.display="flex";
+lightboxImg.src=img.src;
+caption.innerText=img.alt;
+img.dataset.viewed="true";
+checkViewed();
+}
+function closeLightbox(){
+lightbox.style.display="none";
+}
+function checkViewed(){
+const imgs=document.querySelectorAll(".gallery img");
+if([...imgs].every(i=>i.dataset.viewed==="true")){
+secretMessage.classList.remove("hidden");
+}
+}
+</script>
+
+</body>
+</html>
